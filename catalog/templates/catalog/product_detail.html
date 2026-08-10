@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ product.name }} | Web Oil
+{% endblock %}
+
+
+{% block content %}
+
+    <p class="breadcrumbs">
+        <a href="{% url 'catalog:product_list' %}">
+            Каталог
+        </a>
+
+        →
+
+        <a href="{% url 'catalog:category_detail' product.category.slug %}">
+            {{ product.category.name }}
+        </a>
+
+        →
+
+        {{ product.name }}
+    </p>
+
+
+    <section class="product-detail">
+
+        <h1 class="page-title">
+            {{ product.name }}
+        </h1>
+
+
+        {% if product.image %}
+
+            <div class="product-detail__image-wrapper">
+
+                <img
+                class="product-detail__image"
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+                 >
+
+            </div>
+
+        {% endif %}
+
+
+        <p class="product-detail__description">
+            {{ product.description }}
+        </p>
+
+
+        <h2>
+            Выберите вариант
+        </h2>
+
+
+        <div class="variant-list">
+
+            {% for variant in product.variants.all %}
+
+                {% if variant.is_active %}
+
+                    <div class="variant-card">
+
+                        <div>
+
+                            <h3>
+                                {{ variant.name }}
+                            </h3>
+
+                            {% if variant.stock > 0 %}
+
+                                <p class="stock stock--available">
+                                    В наличии: {{ variant.stock }} шт.
+                                </p>
+
+                            {% else %}
+
+                                <p class="stock stock--empty">
+                                    Нет в наличии
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="variant-card__price">
+                            {{ variant.price }} ₽
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            {% empty %}
+
+                <p>У товара пока нет вариантов.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endblock %}
+

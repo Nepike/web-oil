@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Каталог | Web Oil
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="catalog">
+
+        <h1 class="page-title">
+            Каталог товаров
+        </h1>
+
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+
+                    {% if product.image %}
+
+                        <a href="{% url 'catalog:product_detail' product.slug %}">
+                            <img
+                                class="product-card__image"
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+                        </a>
+
+                    {% endif %}
+
+                    <div class="product-card__content">
+
+                        <p class="product-card__category">
+
+                            <a href="{% url 'catalog:category_detail' product.category.slug %}">
+                                {{ product.category.name }}
+                            </a>
+
+                        </p>
+
+
+                        <h2 class="product-card__title">
+
+                            <a href="{% url 'catalog:product_detail' product.slug %}">
+                                {{ product.name }}
+                            </a>
+
+                        </h2>
+
+
+                        <p class="product-card__description">
+                            {{ product.description }}
+                        </p>
+
+
+                        <div class="product-card__variants">
+
+                            {% for variant in product.variants.all %}
+
+                                {% if variant.is_active %}
+
+                                    <div class="variant">
+
+                                        <span>
+                                            {{ variant.name }}
+                                        </span>
+
+                                        <strong>
+                                            {{ variant.price }} ₽
+                                        </strong>
+
+                                    </div>
+
+                                {% endif %}
+
+                            {% empty %}
+
+                                <p>Нет доступных вариантов.</p>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <a
+                            class="button"
+                            href="{% url 'catalog:product_detail' product.slug %}"
+                        >
+                            Подробнее
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <p>Товаров пока нет.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endblock %}

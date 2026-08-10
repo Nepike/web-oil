@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ category.name }} | Web Oil
+{% endblock %}
+
+
+{% block content %}
+
+    <p class="breadcrumbs">
+        <a href="{% url 'catalog:product_list' %}">
+            Каталог
+        </a>
+
+        →
+
+        {{ category.name }}
+    </p>
+
+
+    <h1 class="page-title">
+        {{ category.name }}
+    </h1>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+            <article class="product-card">
+
+                <div class="product-card__content">
+
+                    <h2 class="product-card__title">
+
+                        <a href="{% url 'catalog:product_detail' product.slug %}">
+                            {{ product.name }}
+                        </a>
+
+                    </h2>
+
+
+                    <p class="product-card__description">
+                        {{ product.description }}
+                    </p>
+
+
+                    <a
+                        class="button"
+                        href="{% url 'catalog:product_detail' product.slug %}"
+                    >
+                        Подробнее
+                    </a>
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <p>
+                В этой категории пока нет товаров.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

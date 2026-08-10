@@ -20,6 +20,12 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
 
+    image = models.ImageField(
+        upload_to="products/",
+        blank=True,
+        null=True,
+    )
+
     description = models.TextField(blank=True)
 
     is_active = models.BooleanField(default=True)
